@@ -22,7 +22,6 @@ const handler = async (data: InputType): Promise<ReturnType> => {
   let board;
 
   try {
-    throw new Error("Failed to create board");
     board = await db.board.create({
       data: {
         title,
@@ -35,7 +34,7 @@ const handler = async (data: InputType): Promise<ReturnType> => {
   }
 
   revalidatePath(`/board/${board.id}`);
-  return { daya: board };
+  return { data: board };
 };
 
 export const createBoard = createSafeAction(CreateBoard, handler);
