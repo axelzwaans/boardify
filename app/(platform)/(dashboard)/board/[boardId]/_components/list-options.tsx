@@ -16,7 +16,7 @@ import { MoreHorizontal, XIcon } from "lucide-react";
 import { FormSubmit } from "@/components/form/form-submit";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
-import { copyList } from "@/actions/copy list";
+import { copyList } from "@/actions/copy-list";
 
 interface ListOptionsProps {
   data: List;
