@@ -9,7 +9,7 @@ import { createAuditLog } from "@/lib/create-audit-log";
 import { createSafeAction } from "@/lib/create-safe-action";
 
 import { CopyCard } from "./schema";
-import { InputType, ReturnType } from "./types";
+import { InputType } from "./types";
 
 const handler = async (data: InputType): Promise<ReturnType> => {
   const { userId, orgId } = auth();
@@ -69,7 +69,15 @@ const handler = async (data: InputType): Promise<ReturnType> => {
   }
 
   revalidatePath(`/board/${boardId}`);
-  return { data: card };
+  return { data: { id: card.id, boardId: card.listId } };
 };
 
 export const copyCard = createSafeAction(CopyCard, handler);
+
+type ReturnType = {
+  data?: {
+    id: string;
+    boardId: string;
+  };
+  error?: string;
+};
