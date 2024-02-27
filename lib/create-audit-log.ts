@@ -4,8 +4,8 @@ import { ACTION, ENTITY_TYPE } from "@prisma/client";
 import { db } from "@/lib/db";
 
 interface Props {
-  EntityId: string;
-  EntityType: ENTITY_TYPE;
+  entityId: string;
+  entityType: ENTITY_TYPE;
   entityTitle: string;
   action: ACTION;
 }
