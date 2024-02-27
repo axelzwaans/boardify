@@ -4,9 +4,9 @@ import { auth } from "@clerk/nextjs";
 import { InputType, ReturnType } from "./types";
 import { db } from "@/lib/db";
 import { revalidatePath } from "next/cache";
-import { DeleteBoard } from "./schema";
+import { DeleteCard } from "./schema";
 import { createSafeAction } from "@/lib/create-safe-action";
-import { redirect } from "next/navigation";
+import { list } from "unsplash-js/dist/methods/photos";
 import { createAuditLog } from "@/lib/create-audit-log";
 import { ENTITY_TYPE, ACTION } from "@prisma/client";
 
@@ -19,20 +19,25 @@ const handler = async (data: InputType): Promise<ReturnType> => {
     };
   }
 
-  const { id } = data;
-  let board;
+  const { id, boardId } = data;
+  let card;
+
   try {
-    board = await db.board.delete({
+    card = await db.card.delete({
       where: {
         id,
-        orgId,
+        list: {
+          board: {
+            orgId,
+          },
+        },
       },
     });
 
     await createAuditLog({
-      entityTitle: board.title,
-      EntityId: board.id,
-      EntityType: ENTITY_TYPE.BOARD,
+      entityTitle: card.title,
+      EntityId: card.id,
+      EntityType: ENTITY_TYPE.CARD,
       action: ACTION.DELETE,
     });
   } catch (error) {
@@ -41,8 +46,8 @@ const handler = async (data: InputType): Promise<ReturnType> => {
     };
   }
 
-  revalidatePath(`/organization/${orgId}`);
-  redirect(`/organization/${orgId}`);
+  revalidatePath(`/board/${boardId}`);
+  return { data: card };
 };
 
-export const deleteBoard = createSafeAction(DeleteBoard, handler);
+export const deleteCard = createSafeAction(DeleteCard, handler);
