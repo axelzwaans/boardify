@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
 
-import { ActionState, fieldErrors } from "@/lib/create-safe-action";
+import { ActionState, FieldErrors } from "@/lib/create-safe-action";
 
 type Action<TInput, TOutput> = (
   data: TInput
@@ -17,7 +17,7 @@ export const useAction = <TInput, TOutput>(
   options: UseActionOptions<TOutput> = {}
 ) => {
   const [fieldErrors, setFieldErrors] = useState<
-    fieldErrors<TInput> | undefined
+    FieldErrors<TInput> | undefined
   >(undefined);
   const [error, setError] = useState<string | undefined>(undefined);
   const [data, setData] = useState<TOutput | undefined>(undefined);
